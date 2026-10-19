@@ -2,7 +2,12 @@
 
 A standalone C17 memory-management toolkit focused on explicit lifetimes, safe allocation, and measurable performance.
 
-See [the project scope and roadmap](docs/ROADMAP.md) for module plans and acceptance requirements. This repository is independently buildable and installable. Using it from RepoPulse is optional.
+An independent C17 toolkit with checked allocation, injectable allocators,
+bounded arenas, fixed-size pools, size-class slabs, and optional allocation
+tracking. No RepoPulse or sibling-library dependency is required.
+
+See [API and ownership](docs/API.md), [architecture](docs/ARCHITECTURE.md),
+[installation](docs/INSTALL.md), and [scope and completion status](docs/ROADMAP.md).
 
 ## Requirements
 
@@ -18,4 +23,6 @@ ctest --test-dir build --output-on-failure
 cmake --install build --prefix "$HOME/.local"
 ```
 
-The repository currently contains the initial project scaffold. Feature-complete releases will be published after the roadmap milestones and tests are implemented.
+Or run `./scripts/install.sh "$HOME/.local"` to build, test and install.
+Consumers use `find_package(CMemory 0.1 CONFIG REQUIRED)` and link
+`CMemory::c_memory`. Development stays private until release validation is complete.

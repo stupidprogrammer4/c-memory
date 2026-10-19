@@ -1,0 +1,13 @@
+set(prefix "${PROJECT_BUILD_DIR}/consumer-prefix")
+set(consumer_build "${PROJECT_BUILD_DIR}/consumer-build")
+function(run_checked)
+    execute_process(COMMAND ${ARGV} RESULT_VARIABLE result)
+    if(NOT result EQUAL 0)
+        message(FATAL_ERROR "Consumer validation failed: ${ARGV}")
+    endif()
+endfunction()
+run_checked("${CMAKE_COMMAND}" --install "${PROJECT_BUILD_DIR}" --prefix "${prefix}" --config "${TEST_CONFIG}")
+run_checked("${CMAKE_COMMAND}" -S "${CONSUMER_SOURCE_DIR}" -B "${consumer_build}"
+    "-DCMAKE_PREFIX_PATH=${prefix}")
+run_checked("${CMAKE_COMMAND}" --build "${consumer_build}" --config "${TEST_CONFIG}")
+run_checked("${TEST_CTEST}" --test-dir "${consumer_build}" -C "${TEST_CONFIG}" --output-on-failure)
