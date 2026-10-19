@@ -1,4 +1,4 @@
-foreach(test_name IN ITEMS allocator arena pool slab tracker stress)
+foreach(test_name IN ITEMS allocator arena pool slab tracker stress contracts)
     add_executable(${test_name}_test unit/${test_name}_test.c)
     target_link_libraries(${test_name}_test PRIVATE CMemory::c_memory)
     add_test(NAME ${test_name} COMMAND ${test_name}_test)

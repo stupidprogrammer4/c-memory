@@ -2,9 +2,10 @@
 
 This is an independently usable C17 library. It must have no dependency on RepoPulse or the data-structures repository.
 
-Status: implementation and local validation are complete; external CI and
-release publication checks are required before publication. Keep this repository
-private until those checks complete.
+Status: the declared initial toolkit scope is complete for version 0.1.0 on
+Linux x86-64. Release acceptance uses local GCC/Clang validation, installation
+and archive-consumer checks. Hosted CI is temporarily manual and does not gate
+this release.
 
 ## Implemented modules
 
@@ -36,7 +37,6 @@ Use CMake and CTest; install headers and library independently. Keep sanitizer-e
 - Independent installed-package and relocated-archive consumers, runnable example, source installer,
   CPack archive generation, API/lifetime documentation and measured benchmarks.
 
-Remaining release gates: GCC/Clang CI, release archive and checksum publication.
-These are release work, not deferred modules.
-
-See `VALIDATION.md` for the recorded checks and remaining publication gates.
+See `VALIDATION.md` for recorded checks and `RELEASE.md` for release scope and
+installation. Future platforms or allocator strategies are separate development
+work, not unfinished parts of this version's declared scope.

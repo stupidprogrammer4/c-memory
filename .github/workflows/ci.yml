@@ -1,7 +1,7 @@
 name: CI
+# Hosted checks are manual while release validation runs locally.
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

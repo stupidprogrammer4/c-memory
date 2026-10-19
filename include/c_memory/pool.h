@@ -25,7 +25,9 @@ typedef struct {
 cm_status cm_pool_init(cm_pool *pool, cm_allocator backing, size_t block_size, size_t alignment,
                        size_t capacity);
 cm_status cm_pool_allocate(cm_pool *pool, void **out);
-/* Rejects foreign, interior, or already-freed pointers. NULL is a no-op. */
+/* Rejects foreign/interior pointers and blocks currently marked free. NULL is
+ * a no-op. Reset/destroy invalidate pointers; stale pointers cannot be detected
+ * after the same block address is reallocated. */
 cm_status cm_pool_deallocate(cm_pool *pool, void *allocation);
 /* Reports block boundaries, including currently free blocks. */
 int cm_pool_owns(const cm_pool *pool, const void *allocation);

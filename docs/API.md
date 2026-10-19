@@ -36,6 +36,11 @@ count. It owns one backing allocation and never grows automatically. The stride
 can exceed payload size to hold a free-list index and satisfy alignment. Direct
 pool frees reject foreign, interior and duplicate pointers.
 
+Duplicate-free detection checks the current occupancy bitmap. After reset or
+address reuse, old pointers are invalid and must not be used: a pointer-only
+interface cannot distinguish an obsolete pointer from a new allocation at the
+same address. The same lifetime rule applies to slab classes and tracker records.
+
 Slabs own an array of fixed-block pools. Supply strictly increasing size classes
 with alignment and block count for each. Allocation tries eligible classes in
 order and may spill into a larger class when a smaller class is full. An

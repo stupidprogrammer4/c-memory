@@ -49,8 +49,9 @@ static int measure(const char *name, const cm_allocator *allocator)
         return 1;
     }
     double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+    double operation_count = (double)BATCH_SIZE * (double)ITERATIONS;
     printf("%s,%d,%d,%.6f,%.2f\n", name, BATCH_SIZE, ITERATIONS, seconds,
-           seconds * 1e9 / ((double)BATCH_SIZE * ITERATIONS));
+           seconds * 1e9 / operation_count);
     return 0;
 }
 

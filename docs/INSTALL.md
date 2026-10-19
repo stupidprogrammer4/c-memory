@@ -13,7 +13,7 @@ Python runtime or external service is needed.
 The script configures Release, builds, runs CTest and installs only when checks
 pass. Equivalently, run CMake configure/build, CTest, then `cmake --install` with
 your selected prefix. Installing under your home directory needs no root access.
-Private development checkouts require GitHub access until project completion.
+The public release checkout can be cloned without GitHub authentication.
 
 ## From a release archive
 
@@ -22,6 +22,21 @@ it to a chosen prefix. Do not use a development build with sanitizers as a relea
 library. The archive contains headers, the library, CMake package files, license
 and documentation. Linux packages are built for the release runner's toolchain;
 build from source when using an incompatible runtime or platform.
+
+For the Linux x86-64 static-library archive:
+
+```sh
+curl -fLO https://github.com/stupidprogrammer4/c-memory/releases/download/v0.1.0/c-memory-0.1.0-Linux-x86_64.tar.gz
+curl -fLO https://github.com/stupidprogrammer4/c-memory/releases/download/v0.1.0/SHA256SUMS
+sha256sum --check --ignore-missing SHA256SUMS
+mkdir -p "$HOME/.local"
+tar -xzf c-memory-0.1.0-Linux-x86_64.tar.gz --strip-components=1 -C "$HOME/.local"
+```
+
+A separate `c-memory-0.1.0-Linux-x86_64-shared.tar.gz` asset supplies the shared
+library; use it instead of the static archive when desired. For shared-library
+deployment, ensure the chosen library directory is discoverable by the runtime
+loader. CMake configures build-tree consumer runtime paths during validation.
 
 ## Consume the installed library
 
@@ -58,3 +73,8 @@ cmake --build build/release --parallel
 ctest --test-dir build/release --output-on-failure
 cmake --build build/release --target package
 ```
+
+For the complete local compiler matrix, run `./scripts/validate.sh clang` (or
+pass an absolute Clang executable path). It also uses `gcc`, which can be
+selected through `CMEMORY_GCC`. GCC and Clang are development validation tools;
+only one C17 compiler is required for ordinary source installation.
