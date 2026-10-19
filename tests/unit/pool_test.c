@@ -21,7 +21,9 @@ int main(void)
     CHECK(cm_pool_deallocate(&pool, (unsigned char *)items[0] + 1) == CM_INVALID_ARGUMENT);
     CHECK(cm_pool_deallocate(&pool, &state) == CM_INVALID_ARGUMENT);
     for (size_t i = 0; i < 17; ++i) {
-        for (size_t j = 0; j < 13; ++j) CHECK(((unsigned char *)items[i])[j] == i);
+        for (size_t j = 0; j < 13; ++j) {
+            CHECK(((unsigned char *)items[i])[j] == i);
+        }
         CHECK(cm_pool_deallocate(&pool, items[i]) == CM_OK);
         CHECK(cm_pool_deallocate(&pool, items[i]) == CM_INVALID_ARGUMENT);
     }
@@ -50,7 +52,7 @@ int main(void)
     CHECK(cm_pool_init(&pool, failure_allocator(&state), SIZE_MAX, 64, 2) == CM_SIZE_OVERFLOW);
     CHECK(cm_pool_init(&pool, failure_allocator(&state), 8, 0, SIZE_MAX) == CM_SIZE_OVERFLOW);
     CHECK(cm_pool_init(&pool, failure_allocator(&state), sizeof(size_t), 1,
-                        SIZE_MAX / sizeof(size_t)) == CM_SIZE_OVERFLOW);
+                       SIZE_MAX / sizeof(size_t)) == CM_SIZE_OVERFLOW);
     CHECK(cm_pool_init(&pool, failure_allocator(&state), 0, 0, 2) == CM_INVALID_ARGUMENT);
     CHECK(cm_pool_init(&pool, failure_allocator(&state), 8, 3, 2) == CM_INVALID_ARGUMENT);
     CHECK(cm_pool_init(&pool, failure_allocator(&state), 8, 0, 0) == CM_INVALID_ARGUMENT);

@@ -36,16 +36,16 @@ cm_allocator cm_system_allocator(void);
  * contracts and valid frees are caller preconditions. Sharing a mutable
  * context requires caller synchronization. Deallocating NULL is a no-op. */
 cm_status cm_allocate(cm_allocator allocator, size_t size, size_t alignment, void **out);
-cm_status cm_callocate(cm_allocator allocator, size_t count, size_t size,
-                      size_t alignment, void **out);
+cm_status cm_callocate(cm_allocator allocator, size_t count, size_t size, size_t alignment,
+                       void **out);
 cm_status cm_deallocate(cm_allocator allocator, void *allocation);
 
 /* O(bytes): preserves min(old_size, new_size) bytes by allocating/copying.
  * Supply the actual old size. Failure preserves the pointer and its contents.
  * new_size == 0 releases and clears the pointer. NULL with old_size == 0 is
  * allowed. Arenas retain old space until reset because their frees are no-ops. */
-cm_status cm_resize(cm_allocator allocator, void **allocation, size_t old_size,
-                    size_t new_size, size_t alignment);
+cm_status cm_resize(cm_allocator allocator, void **allocation, size_t old_size, size_t new_size,
+                    size_t alignment);
 
 #ifdef __cplusplus
 }

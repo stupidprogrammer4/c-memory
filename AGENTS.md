@@ -9,5 +9,6 @@
 - Use `static inline` selectively; compiler inlining is not guaranteed by the C keyword.
 - Add parallelism only when measurements justify it; use OpenMP when appropriate and preserve deterministic behavior.
 - Use sanitizers and static analysis during development. Do not ignore test or sanitizer failures.
-
 - Keep modules focused on one responsibility. Expose supported interfaces in public headers and keep implementation details in private headers. Enforce module dependencies with CMake targets where useful.
+- Follow the checked-in `.clang-format` style, brace control flow, and use designated initializers when field names clarify resource ownership.
+- Keep type and conversion diagnostics enabled. Fix their causes; do not hide errors with diagnostic suppression or unchecked casts.

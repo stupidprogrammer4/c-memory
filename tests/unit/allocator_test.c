@@ -50,17 +50,23 @@ int main(void)
     state.fail = 0;
     CHECK(cm_resize(allocator, &allocation, 13, 37, 64) == CM_OK);
     CHECK((uintptr_t)allocation % 64 == 0);
-    for (size_t i = 0; i < 13; ++i) CHECK(((unsigned char *)allocation)[i] == 0x5a);
+    for (size_t i = 0; i < 13; ++i) {
+        CHECK(((unsigned char *)allocation)[i] == 0x5a);
+    }
     CHECK(state.releases == 1);
     CHECK(cm_resize(allocator, &allocation, 37, 4, 64) == CM_OK);
-    for (size_t i = 0; i < 4; ++i) CHECK(((unsigned char *)allocation)[i] == 0x5a);
+    for (size_t i = 0; i < 4; ++i) {
+        CHECK(((unsigned char *)allocation)[i] == 0x5a);
+    }
     CHECK(cm_resize(allocator, &allocation, 4, 0, 0) == CM_OK);
     CHECK(allocation == NULL && state.releases == 3);
 
     CHECK(cm_callocate(allocator, 7, sizeof(unsigned), 0, &allocation) == CM_OK);
     CHECK(state.last_size == 7 * sizeof(unsigned));
     CHECK(state.last_alignment == _Alignof(max_align_t));
-    for (size_t i = 0; i < 7 * sizeof(unsigned); ++i) CHECK(((unsigned char *)allocation)[i] == 0);
+    for (size_t i = 0; i < 7 * sizeof(unsigned); ++i) {
+        CHECK(((unsigned char *)allocation)[i] == 0);
+    }
     CHECK(cm_deallocate(allocator, allocation) == CM_OK);
 
     size_t calls = state.allocations;

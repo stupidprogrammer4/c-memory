@@ -22,8 +22,8 @@ typedef struct {
  * capacity must be positive. Failure leaves pool unchanged. Initialize only
  * an uninitialized or destroyed pool. A live pool must not be shallow-copied.
  * Observe fields but do not modify them. Synchronize shared pools externally. */
-cm_status cm_pool_init(cm_pool *pool, cm_allocator backing, size_t block_size,
-                       size_t alignment, size_t capacity);
+cm_status cm_pool_init(cm_pool *pool, cm_allocator backing, size_t block_size, size_t alignment,
+                       size_t capacity);
 cm_status cm_pool_allocate(cm_pool *pool, void **out);
 /* Rejects foreign, interior, or already-freed pointers. NULL is a no-op. */
 cm_status cm_pool_deallocate(cm_pool *pool, void *allocation);

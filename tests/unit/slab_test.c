@@ -19,7 +19,9 @@ int main(void)
     void *out = NULL;
     CHECK(cm_slab_allocate(&slab, 8, 8, &out) == CM_CAPACITY_EXCEEDED);
     CHECK(cm_slab_deallocate(&slab, &state) == CM_INVALID_ARGUMENT);
-    for (size_t i = 0; i < 5; ++i) CHECK(cm_slab_deallocate(&slab, items[i]) == CM_OK);
+    for (size_t i = 0; i < 5; ++i) {
+        CHECK(cm_slab_deallocate(&slab, items[i]) == CM_OK);
+    }
     CHECK(cm_slab_allocate(&slab, 33, 64, &out) == CM_OK);
     CHECK((uintptr_t)out % 64 == 0);
     CHECK(cm_slab_deallocate(&slab, out) == CM_OK);

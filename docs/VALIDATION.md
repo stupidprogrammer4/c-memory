@@ -13,6 +13,10 @@ Environment: Linux x86-64, GCC 15.2.0, CMake 3.31.6.
 - AddressSanitizer, LeakSanitizer and UndefinedBehaviorSanitizer: 8 cases;
   installed-package validation is intentionally performed in ordinary builds.
 - GCC `-fanalyzer -Werror`: all library sources compiled without diagnostics.
+- Strict ISO C17 build with conversion, prototype, pointer, alignment and
+  format-string warnings treated as errors: all targets and 9 CTest cases pass.
+- clang-format 23.1.3 checks pass; per-project compilation databases are exported
+  for editor analysis without suppressing diagnostics.
 - Seeded stress: 30,000 operations each through pool, slab and tracker adapters;
   payload integrity, alignment, uniqueness, counts and final cleanup checked.
 - Injected backing-allocation failure at every slab initialization stage;

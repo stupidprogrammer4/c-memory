@@ -38,6 +38,7 @@ int main(void)
     CHECK(cm_tracker_release_all(&tracker) == 0);
     CHECK(cm_tracker_init(NULL, failure_allocator(&state), entries, 2) == CM_INVALID_ARGUMENT);
     CHECK(cm_tracker_init(&tracker, failure_allocator(&state), entries, 0) == CM_INVALID_ARGUMENT);
-    CHECK(cm_tracker_init(&tracker, failure_allocator(&state), entries, SIZE_MAX) == CM_SIZE_OVERFLOW);
+    CHECK(cm_tracker_init(&tracker, failure_allocator(&state), entries, SIZE_MAX) ==
+          CM_SIZE_OVERFLOW);
     return 0;
 }

@@ -5,7 +5,11 @@
 extern "C" {
 #endif
 
-typedef struct { void *allocation; size_t size; size_t alignment; } cm_tracker_entry;
+typedef struct {
+    void *allocation;
+    size_t size;
+    size_t alignment;
+} cm_tracker_entry;
 typedef struct {
     cm_allocator backing;
     cm_tracker_entry *entries;
@@ -24,8 +28,8 @@ typedef struct {
  * The tracker, records and backing context must outlive its allocations and
  * adapters. Shared use requires caller synchronization. Counters saturate where
  * appropriate; live-byte overflow and metadata exhaustion reject allocation. */
-cm_status cm_tracker_init(cm_tracker *tracker, cm_allocator backing,
-                          cm_tracker_entry *entries, size_t capacity);
+cm_status cm_tracker_init(cm_tracker *tracker, cm_allocator backing, cm_tracker_entry *entries,
+                          size_t capacity);
 cm_allocator cm_tracker_allocator(cm_tracker *tracker);
 /* Invalid frees are rejected and counted; NULL is a no-op. The adapter also
  * records invalid frees, but its void deallocator cannot return the diagnostic. */

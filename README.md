@@ -8,6 +8,7 @@ tracking. No RepoPulse or sibling-library dependency is required.
 
 See [API and ownership](docs/API.md), [architecture](docs/ARCHITECTURE.md),
 [installation](docs/INSTALL.md), and [scope and completion status](docs/ROADMAP.md).
+Editor setup and formatting are described in [development](docs/DEVELOPMENT.md).
 
 ## Requirements
 

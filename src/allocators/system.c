@@ -10,7 +10,9 @@ static cm_status system_allocate(void *context, size_t size, size_t alignment, v
         *out = malloc(size);
     } else {
         size_t mask = alignment - 1;
-        if (size > SIZE_MAX - mask) return CM_SIZE_OVERFLOW;
+        if (size > SIZE_MAX - mask) {
+            return CM_SIZE_OVERFLOW;
+        }
         size_t rounded_size = (size + mask) & ~mask;
         *out = aligned_alloc(alignment, rounded_size);
     }
@@ -25,6 +27,9 @@ static void system_deallocate(void *context, void *allocation)
 
 cm_allocator cm_system_allocator(void)
 {
-    cm_allocator allocator = {NULL, system_allocate, system_deallocate};
+    cm_allocator allocator = {
+        .allocate = system_allocate,
+        .deallocate = system_deallocate,
+    };
     return allocator;
 }

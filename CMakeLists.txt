@@ -1,17 +1,26 @@
 cmake_minimum_required(VERSION 3.20)
 project(CMemory VERSION 0.1.0 LANGUAGES C)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_C_STANDARD 17)
+
 include(CTest)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 option(CMEMORY_ENABLE_SANITIZERS "Enable AddressSanitizer and UndefinedBehaviorSanitizer" OFF)
 option(CMEMORY_BUILD_EXAMPLES "Build examples" ON)
 option(CMEMORY_BUILD_BENCHMARKS "Build reproducible allocation benchmark" OFF)
+option(CMEMORY_WARNINGS_AS_ERRORS "Treat project compiler warnings as errors" ON)
 
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-    add_compile_options(-Wall -Wextra -Wpedantic -Wconversion -Wshadow)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion
+        -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith
+        -Wwrite-strings -Wformat=2)
+    if(CMEMORY_WARNINGS_AS_ERRORS)
+        add_compile_options(-Werror)
+    endif()
 endif()
 if(CMEMORY_ENABLE_SANITIZERS)
     if(NOT CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")

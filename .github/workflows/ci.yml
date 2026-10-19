@@ -33,7 +33,13 @@ jobs:
           -DCMEMORY_ENABLE_SANITIZERS=${{ matrix.sanitizers }}
           -DBUILD_SHARED_LIBS=${{ matrix.shared }}
           -DCMEMORY_BUILD_BENCHMARKS=ON
-          -DCMAKE_C_FLAGS=-Werror
+          -DCMEMORY_WARNINGS_AS_ERRORS=ON
+      - name: Check source formatting
+        if: matrix.compiler == 'gcc' && matrix.build_type == 'Release'
+        run: |
+          python3 -m venv build/format-tools
+          build/format-tools/bin/python -m pip install clang-format==23.1.3
+          git ls-files -z '*.c' '*.h' | xargs -0 build/format-tools/bin/clang-format --dry-run --Werror
       - name: Build
         run: cmake --build build/ci --parallel
       - name: Test

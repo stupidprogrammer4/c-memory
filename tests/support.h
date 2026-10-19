@@ -2,7 +2,11 @@
 #define CMEMORY_TEST_SUPPORT_H
 #include "c_memory/allocator.h"
 
-typedef struct { size_t attempts; size_t live; size_t fail_at; } failure_state;
+typedef struct {
+    size_t attempts;
+    size_t live;
+    size_t fail_at;
+} failure_state;
 
 static inline cm_status failing_allocate(void *context, size_t size, size_t alignment, void **out)
 {
@@ -12,7 +16,9 @@ static inline cm_status failing_allocate(void *context, size_t size, size_t alig
         return CM_OUT_OF_MEMORY;
     }
     cm_status status = cm_allocate(cm_system_allocator(), size, alignment, out);
-    if (status == CM_OK) state->live++;
+    if (status == CM_OK) {
+        state->live++;
+    }
     return status;
 }
 

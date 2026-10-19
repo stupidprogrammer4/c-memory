@@ -4,7 +4,11 @@
 #include "../support.h"
 #include "c_memory/c_memory.h"
 
-typedef struct { void *pointer; size_t size; unsigned char pattern; } live_slot;
+typedef struct {
+    void *pointer;
+    size_t size;
+    unsigned char pattern;
+} live_slot;
 
 static uint32_t next_random(uint32_t *state)
 {
@@ -21,8 +25,9 @@ static int exercise(cm_allocator allocator, size_t max_size, uint32_t seed)
         size_t index = next_random(&seed) % 128;
         live_slot *slot = &slots[index];
         if (slot->pointer != NULL) {
-            for (size_t j = 0; j < slot->size; ++j)
+            for (size_t j = 0; j < slot->size; ++j) {
                 CHECK(((unsigned char *)slot->pointer)[j] == slot->pattern);
+            }
             CHECK(cm_deallocate(allocator, slot->pointer) == CM_OK);
             slot->pointer = NULL;
         } else {
@@ -32,8 +37,9 @@ static int exercise(cm_allocator allocator, size_t max_size, uint32_t seed)
             CHECK(status == CM_OK || status == CM_CAPACITY_EXCEEDED);
             if (status == CM_OK) {
                 CHECK((uintptr_t)slot->pointer % alignment == 0);
-                for (size_t j = 0; j < 128; ++j)
+                for (size_t j = 0; j < 128; ++j) {
                     CHECK(j == index || slots[j].pointer != slot->pointer);
+                }
                 slot->size = size;
                 slot->pattern = (unsigned char)next_random(&seed);
                 memset(slot->pointer, slot->pattern, size);
@@ -43,9 +49,12 @@ static int exercise(cm_allocator allocator, size_t max_size, uint32_t seed)
         }
     }
     for (size_t i = 0; i < 128; ++i) {
-        if (slots[i].pointer == NULL) continue;
-        for (size_t j = 0; j < slots[i].size; ++j)
+        if (slots[i].pointer == NULL) {
+            continue;
+        }
+        for (size_t j = 0; j < slots[i].size; ++j) {
             CHECK(((unsigned char *)slots[i].pointer)[j] == slots[i].pattern);
+        }
         CHECK(cm_deallocate(allocator, slots[i].pointer) == CM_OK);
     }
     return 0;
@@ -65,8 +74,9 @@ int main(void)
     cm_slab slab = {0};
     CHECK(cm_slab_init(&slab, backing, classes, 3) == CM_OK);
     CHECK(exercise(cm_slab_allocator(&slab), 256, UINT32_C(0x87654321)) == 0);
-    for (size_t i = 0; i < slab.class_count; ++i)
+    for (size_t i = 0; i < slab.class_count; ++i) {
         CHECK(slab.pools[i].available == slab.pools[i].capacity);
+    }
     cm_slab_destroy(&slab);
 
     cm_tracker tracker;
