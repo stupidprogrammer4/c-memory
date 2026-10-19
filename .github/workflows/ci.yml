@@ -32,8 +32,22 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMEMORY_ENABLE_SANITIZERS=${{ matrix.sanitizers }}
           -DBUILD_SHARED_LIBS=${{ matrix.shared }}
+          -DCMEMORY_BUILD_BENCHMARKS=ON
           -DCMAKE_C_FLAGS=-Werror
       - name: Build
         run: cmake --build build/ci --parallel
       - name: Test
         run: ctest --test-dir build/ci --output-on-failure
+      - name: Package
+        if: matrix.compiler == 'gcc' && matrix.build_type == 'Release'
+        run: |
+          cmake --build build/ci --target package
+          cd build/ci
+          sha256sum c-memory-*.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        if: matrix.compiler == 'gcc' && matrix.build_type == 'Release'
+        with:
+          name: c-memory-linux-x86_64
+          path: |
+            build/ci/c-memory-*.tar.gz
+            build/ci/SHA256SUMS

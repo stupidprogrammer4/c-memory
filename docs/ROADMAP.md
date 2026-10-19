@@ -38,3 +38,5 @@ Use CMake and CTest; install headers and library independently. Keep sanitizer-e
 
 Remaining release gates: GCC/Clang CI, release archive and checksum publication.
 These are release work, not deferred modules.
+
+See `VALIDATION.md` for the recorded checks and remaining publication gates.
